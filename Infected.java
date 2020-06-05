@@ -3,7 +3,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * The Infected are people that have gotten the Coronavirus. If they touch the
  * human, they infect them and if the virus is not cleansed, the human will get
- * Coronavirus and the game ends.
+ * infected and the human will lose a life. They are attracted to sounds and
+ * will go to the nearest sound if the human makes it. Otherwise they roam
+ * aimlessly.
  * 
  * @author Ryan Hoang 
  * @version 1.2
@@ -47,7 +49,6 @@ public class Infected extends Creature
             followTrailTimeRemaining--;
             walk();
         }
-        randomWalk();
     }
     
     private boolean smellsPheromone()

@@ -1,55 +1,40 @@
 import greenfoot.*;
-import java.util.Calendar;
 
 /**
  * The ScoreBoard is used to display results on the screen. It can display some
- * text and several numbers.
+ * text and a score.
  * 
- * @author Ryan Hoang
- * @version 1
+ * @Ryan Hoang
  */
 public class ScoreBoard extends Actor
 {
     public static final float FONT_SIZE = 48.0f;
-    public static final int WIDTH = 600;
-    public static final int HEIGHT = 400;
-    
-    public ScoreBoard()
-    {
-        makeImage("Scores", "Score: ", "nobody", 100);
-    }
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 300;
 
     /**
-     * Create a score board for an interim result.
+     * Create a score board with dummy result for testing.
      */
-    public ScoreBoard(String title, String text, String prefix, int map, int[] scores)
+    public ScoreBoard()
     {
-        makeImage(title, text, prefix, scores[map]);
-        addMapScores(map, scores);
+        this(100);
     }
-    
+
     /**
      * Create a score board for the final result.
      */
-    public ScoreBoard(String title, String text, String prefix, int[] scores)
+    public ScoreBoard(int score)
     {
-        int total = 0;
-        for (int val : scores) {
-            total += val;
-        }
-        makeImage(title, text, prefix, total);
-        addMapScores(scores.length-1, scores);
-        printResultToTerminal(title, scores);
+        makeImage("Game Over", "Score: ", score);
     }
-    
     /**
      * Make the score board image.
      */
-    private void makeImage(String title, String text, String prefix, int score)
+    private void makeImage(String title, String prefix, int score)
     {
         GreenfootImage image = new GreenfootImage(WIDTH, HEIGHT);
 
-        image.setColor(new Color(0, 0, 0, 128));
+        image.setColor(new Color(255,255,255, 128));
         image.fillRect(0, 0, WIDTH, HEIGHT);
         image.setColor(new Color(0, 0, 0, 128));
         image.fillRect(5, 5, WIDTH-10, HEIGHT-10);
@@ -58,46 +43,7 @@ public class ScoreBoard extends Actor
         image.setFont(font);
         image.setColor(Color.WHITE);
         image.drawString(title, 60, 100);
-        image.drawString(text, 60, 220);
-        image.drawString(prefix + score, 60, 320);
+        image.drawString(prefix + score, 60, 200);
         setImage(image);
-    }
-    
-    /**
-     * Add the scores for the individual maps to the score board. 'scores' is an
-     * array with all scores, 'mapNo' is the number of the current map (array entries
-     * past this value have no valid value).
-     */
-    private void addMapScores(int mapNo, int[] scores)
-    {
-        GreenfootImage image = getImage();
-        Font font = image.getFont();
-        font = font.deriveFont(20.0f);
-        image.setFont(font);
-        image.setColor(Color.WHITE);
-        for (int i = 0; i <= mapNo; i++) {
-            image.drawString("Map " + (i+1) + ": " + scores[i], 460, 80+(i*28));
-        }
-    }
-    
-    private void printResultToTerminal(String name, int[] scores)
-    {
-        Calendar now = Calendar.getInstance();
-        String time = now.get(Calendar.HOUR_OF_DAY) + ":";
-        int min = now.get(Calendar.MINUTE);
-        if(min < 10)
-            time += "0" + min;
-        else
-            time += min;
-        System.out.print(time + ":  [");
-        int total = 0;
-        for (int score : scores) {
-            total += score;
-            if (score < 10)
-                System.out.print("  " + score);
-            else
-                System.out.print(" " + score);
-        }
-        System.out.println("]  " + total + "  -- " + name );
     }
 }

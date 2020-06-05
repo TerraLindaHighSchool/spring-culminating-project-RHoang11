@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class TitleScreen here.
+ * This is the title screen. Pressing space will start the game.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Ryan Hoang
+ * @version 1.0
  */
 public class TitleScreen extends World
 {

@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Cure here.
+ * This is the cure, it will slightly lower the infection percentage if collected.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Ryan Hoang
+ * @version 1.0
  */
 public class Cure extends Actor
 {
@@ -14,7 +14,7 @@ public class Cure extends Actor
      */
     public void act() 
     {
-        // Add your action code here.
+        
     }
     
     public Cure()

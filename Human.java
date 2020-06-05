@@ -1,7 +1,8 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Human here.
+ * This is the human, he is trying to stay away from the infected and
+ * will slowly gain infection % each time he touches an infected
  * 
  * @author Ryan Hoang 
  * @version 3.9
@@ -12,7 +13,7 @@ public class Human extends Actor
     private int phAvailable;
     private boolean walk;
     
-    private int time = 120;
+    private int time = 0;
     private int count;
     
     GreenfootImage image1 = new GreenfootImage("PersonUp.png");
@@ -211,45 +212,6 @@ public class Human extends Actor
             removeTouching(Cure.class);
         }
         
-        if(isTouching(Wall.class) && (up) && walk)
-        {
-            setLocation(getX(), getY()+4);
-        }
-        
-        if(isTouching(Wall.class) && (down) && walk)
-        {
-            setLocation(getX(), getY()-4);
-        }
-        
-        if(isTouching(Wall.class) && (left) && walk)
-        {
-            setLocation(getX()+4, getY());
-        }
-        
-        if(isTouching(Wall.class) && (right) && walk)
-        {
-            setLocation(getX()-4, getY());
-        }
-        
-        if(isTouching(Wall.class) && (up) && walk)
-        {
-            setLocation(getX(), getY()+4);
-        }
-        
-        if(isTouching(Wall.class) && (down) && walk)
-        {
-            setLocation(getX(), getY()-4);
-        }
-        
-        if(isTouching(Wall.class) && (left) && walk)
-        {
-            setLocation(getX()+4, getY());
-        }
-        
-        if(isTouching(Wall.class) && (right) && walk)
-        {
-            setLocation(getX()-4, getY());
-        }
     }
     
     /**
@@ -257,7 +219,7 @@ public class Human extends Actor
      */
     private void displayInScene()
     {
-        getWorld( ).showText("Infection: " + Stats.getInfection(), 90, 35);
+        getWorld( ).showText("Infection: " + Stats.getInfection() + "%", 90, 35);
         getWorld( ).showText("Time: " + time, 710, 20);
         getWorld( ).showText("Score: " + count, 340, 20);
         getWorld( ).showText("Lives: " + Stats.getLives(), 40, 15);
@@ -271,9 +233,9 @@ public class Human extends Actor
     {
         if(count++ % 50 == 0)
         {
-            if(time > 0)
+            if(time >= 0)
             {
-                time--;
+                time++;
             }
         }
     }
@@ -291,7 +253,8 @@ public class Human extends Actor
         }
         if (Stats.getLives() <= 0)
         {
-            getWorld().showText("YOU LOSE", 390, 180);
+            MyWorld world = (MyWorld) getWorld();
+            world.gameOver();
             Greenfoot.stop();
             Greenfoot.playSound("game-over.wav");
         }

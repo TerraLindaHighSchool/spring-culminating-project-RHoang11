@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class MyWorld here.
+ * This is the world, nuff said.
  * 
  * @author Ryan Hoang 
  * @version 1
@@ -51,65 +51,17 @@ public class MyWorld extends World
     {
         clearWorld();
         currentMap = map-1;
-        showMap(currentMap);
-    }
-    
-    /**
-     * Set up the start scene.
-     */
-    private void showMap(int mapNo)
-    {
-        map = new GreenfootImage("map" + mapNo + ".jpg");
-        setBackground(map);
-        Counter mapTitle = new Counter(Infected.getAuthorName() + " - Map ", mapNo+1);
-        addObject(mapTitle, 200, 20);
-        int[][] thisMap = mapData[mapNo];
-        for (int i = 1; i < thisMap.length; i++) {
-            int[] data = thisMap[i];
-            
-        }
-        int[] shipData = thisMap[0];
-        
         
     }
     
-    /**
-     * Game is over. Stop running, display score.
-     */
-    public void mapFinished(int time)
-    {
-        displayScore(time);
-        Greenfoot.delay(SCORE_DISPLAY_TIME);
-        clearWorld();
-        currentMap++;
-        if (currentMap < mapData.length) {
-            showMap(currentMap);
-        }
-        else {
-            displayFinalScore();
-            Greenfoot.stop();
-        }
-    }
     
-    private void displayFinalScore()
-    {
-        clearWorld();
-        ScoreBoard board = new ScoreBoard(Infected.getAuthorName(), "Final score", "Total: ", scores);
-        addObject(board, getWidth() / 2, getHeight() / 2);
-    }
     
     private void clearWorld()
     {
         removeObjects(getObjects(null));
     }
     
-    private void displayScore(int time)
-    {
-        int points = time;
-        scores[currentMap] = points;
-        ScoreBoard board = new ScoreBoard(Infected.getAuthorName(), "Map " + (currentMap+1), "Score: ", currentMap, scores);
-        addObject(board, getWidth() / 2, getHeight() / 2);
-    }
+    
 
     private void setTime()
     {
@@ -138,7 +90,7 @@ public class MyWorld extends World
     public void act()
     {
         count++;
-        
+        Stats.setScore(1);
         if(count % 600 == 0)
          {
             Infected infected = new Infected();
@@ -149,5 +101,14 @@ public class MyWorld extends World
             addObject(cure, Greenfoot.getRandomNumber(getWidth()), 
                 Greenfoot.getRandomNumber(getHeight()));
         } 
+    }
+    
+    public void gameOver() 
+    {
+        int x=getWidth()/2;
+        int y=getHeight()/2;
+        int currentScore=Stats.getScore();
+        addObject(new ScoreBoard(currentScore),x,y);
+
     }
 }
