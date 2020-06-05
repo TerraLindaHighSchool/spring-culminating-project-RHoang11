@@ -62,6 +62,7 @@ public class Human extends Actor
         //shows time and sets the stats on the screen
         setTime();
         displayInScene();
+        endGame();
     }    
     
     public Human()
@@ -204,7 +205,7 @@ public class Human extends Actor
         }
         
         Cure cure = (Cure) getOneIntersectingObject(Cure.class);
-         if(cure != null)
+        if(cure != null)
         {
             Stats.setInfection(-15);
             removeTouching(Cure.class);
@@ -256,7 +257,7 @@ public class Human extends Actor
      */
     private void displayInScene()
     {
-        getWorld( ).showText("Infection: " + Stats.getInfection(), 50, 35);
+        getWorld( ).showText("Infection: " + Stats.getInfection(), 90, 35);
         getWorld( ).showText("Time: " + time, 710, 20);
         getWorld( ).showText("Score: " + count, 340, 20);
         getWorld( ).showText("Lives: " + Stats.getLives(), 40, 15);
