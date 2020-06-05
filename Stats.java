@@ -8,6 +8,7 @@ public class Stats
 {
     private static int score = 60;
     private static int life = 3;
+    private static int infection = 0;
     public static int getScore()
     {
         return score;
@@ -18,7 +19,7 @@ public class Stats
     }
     public static void revive()
     {
-        score = 50;
+        infection = 50;
     }
     
     public static int getLives()
@@ -28,5 +29,14 @@ public class Stats
     public static void setLives(int change)
     {
         life += change;
+    }
+    
+    public static int getInfection()
+    {
+        return infection;
+    }
+    public static void setInfection(int change)
+    {
+        infection += change;
     }
 }

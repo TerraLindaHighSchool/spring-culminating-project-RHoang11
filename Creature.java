@@ -7,8 +7,8 @@ import greenfoot.*;
  * that the creature will move in the next step. The value for these is capped by the SPEED constant: 
  * the delta values will always be in the range [-SPEED..SPEED].
  * 
- * @author mik
- * @version 1.0
+ * @author Ryan Hoang
+ * @version 1.3
  */
 public class Creature  extends Actor
 {
@@ -19,8 +19,10 @@ public class Creature  extends Actor
     private int deltaX;
     private int deltaY;
 
-    /** The home ant hill. */
-    //private AntHill home;
+    private boolean moved = false;
+    private boolean atWater = false;
+    
+    private static final double WALKING_SPEED = 5.0;
 
     /**
      * Crtae a new creature with neutral movement (movement speed is zero).
@@ -29,6 +31,7 @@ public class Creature  extends Actor
     {
         deltaX = 0;
         deltaY = 0;
+        setRotation(Greenfoot.getRandomNumber(360));
     }
     /**
     
@@ -174,9 +177,81 @@ public class Creature  extends Actor
      * Return 'true' in exactly 'percent' number of calls. That is: a call
      * randomChance(25) has a 25% chance to return true.
      */
-    private boolean randomChance(int percent)
+    public boolean randomChance(int percent)
     {
         return Greenfoot.getRandomNumber(100) < percent;
     }
+    
+    /**
+     * Turn 'angle' degrees towards the right (clockwise).
+     */
+    public void turn(int angle)
+    {
+        setRotation(getRotation() + angle);
+    }
+    
+    /**
+     * Return true if we have just seen water in front of us.
+     */
+    public boolean atWater()
+    {
+        return atWater;
+    }
+    
+    /**
+     * Move forward roughly in the current direction. Sometimes we get a 
+     * little off course.
+     */
+    public void move()
+    {
+        if(moved)   // can move only once per 'act' round
+            return;
+            
+        // there's a 3% chance that we randomly turn a little off course
+        if (randomChance(3)) {
+            turn((Greenfoot.getRandomNumber(3) - 1) * 10);
+        }
 
+        double angle = Math.toRadians( getRotation() );
+        int x = (int) Math.round(getX() + Math.cos(angle) * WALKING_SPEED);
+        int y = (int) Math.round(getY() + Math.sin(angle) * WALKING_SPEED);
+        
+        // now make sure that we are not stepping out of the world
+        if (x >= getWorld().getWidth()) {
+            x = getWorld().getWidth() - 1;
+        }
+        if (x < 0) {
+            x = 0;
+        }
+        if (y >= getWorld().getHeight()) {
+            y = getWorld().getHeight() - 1;
+        }
+        if (y < 0) {
+            y = 0;
+        }
+        
+        
+            
+        moved = true;
+    }
+    
+    /**
+     * Test if we are close to one of the edges of the world. Return true if we are.
+     */
+    public boolean atWorldEdge()
+    {
+        if (getX() < 3 || getX() > getWorld().getWidth() - 3)
+            return true;
+        if (getY() < 3 || getY() > getWorld().getHeight() - 3)
+            return true;
+        else
+            return false;
+    }
+    
+    public void act()
+    {
+        moved = false;
+    }
+    
+    
 }

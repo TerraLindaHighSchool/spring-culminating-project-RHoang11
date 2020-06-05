@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Coronavirus and the game ends.
  * 
  * @author Ryan Hoang 
- * @version 0
+ * @version 1.2
  */
 public class Infected extends Creature
 {
@@ -14,6 +14,7 @@ public class Infected extends Creature
     private final int TIME_FOLLOWING_TRAIL = 30;
     private int phAvailable;
     private int followTrailTimeRemaining;
+    private boolean followingHuman;
     
     public Infected()
     {
@@ -28,8 +29,7 @@ public class Infected extends Creature
     public void act() 
     {
         searchForHuman();
-        smellsPheromone();
-    }    
+    }
     
     private void searchForHuman()
     {
@@ -38,12 +38,14 @@ public class Infected extends Creature
             if(smellsPheromone())
             {
                 walkTowardsPheromoneCenter();
+                followingHuman = true;
             }
             randomWalk();
         }
         else
         {
             followTrailTimeRemaining--;
+            walk();
         }
         randomWalk();
     }
@@ -84,6 +86,32 @@ public class Infected extends Creature
         else
         {
             phAvailable++;
+        }
+    }
+    
+    /**
+     * This method specifies the name of the author (for display on the result board).
+     */
+    public static String getAuthorName()
+    {
+        return "Ryan Hoang";  // write your name here!
+    }
+    
+    private void status()
+    {
+        if(followingHuman == true)
+        {
+            //handlePheromoneDrop();
+            walkTowardsPheromoneCenter();
+            Actor ph = getOneIntersectingObject(Pheromone.class);
+            if(ph == null)
+            {
+                followingHuman = false;
+            }
+        }
+        else
+        {
+            searchForHuman();
         }
     }
 }
